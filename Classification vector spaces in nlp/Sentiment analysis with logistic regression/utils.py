@@ -16,3 +16,17 @@ def process_tweets(tweet):
 	tweet_tokens = tokenizer.tokenize(tweet)
 	tweet_clean = list(set([stemmer.stem(i) for i in tweet_tokens if (i not in stopwords_english and i not in string.punctuation)]))
 	return tweet_clean
+
+def build_freqs(tweets,ys):
+	yslist = np.squeeze(ys).tolist()
+	freqs = {}
+	for tweet,y in zip(tweets,yslist):
+		for word in process_tweets(tweet):
+			pair = (word,y)
+			if pair in freqs:
+				freqs[pair] += 1
+			else:
+				freqs[pair] = 1
+	return freqs
+
+
